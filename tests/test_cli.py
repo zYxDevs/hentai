@@ -14,7 +14,7 @@ class TestHentaiCLI(unittest.TestCase):
         cls.holo_id = 308592
 
     def test_cli_download(self):
-        command = shlex.split("hentai download --id %s --no-check" % self.holo_id)
+        command = shlex.split(f"hentai download --id {self.holo_id} --no-check")
         call = subprocess.call(command, stderr=subprocess.STDOUT)
         self.assertFalse(call, msg="Download failed for ID=%d" % self.holo_id)
 
@@ -28,7 +28,10 @@ class TestHentaiCLI(unittest.TestCase):
         print()
         command = shlex.split("hentai log --list")
         call = subprocess.call(command, stderr=subprocess.STDOUT)
-        self.assertTrue(get_logfile_path().exists() and (call == 0), msg="No log file was produced in '%s'" % str(get_logfile_path()))
+        self.assertTrue(
+            get_logfile_path().exists() and (call == 0),
+            msg=f"No log file was produced in '{str(get_logfile_path())}'",
+        )
 
     @classmethod
     def tearDownClass(cls):

@@ -119,7 +119,7 @@ class TestHentai(unittest.TestCase):
     def test_exists(self):
         self.assertTrue(Hentai.exists(self.test_response.id), msg=str(self.test_response))
         self.assertFalse(Hentai.exists(sys.maxsize), msg=f"Should have failed:{sys.maxsize}")
-        self.assertFalse(Hentai.exists(-69), msg=f"Should have failed:{-69}")
+        self.assertFalse(Hentai.exists(-69), msg='Should have failed:-69')
 
     def test_dictionary_exception(self):
         with self.assertRaises(NotImplementedError) as context:

@@ -18,7 +18,7 @@ def str2bool(val: str) -> bool:
     """
     Convert string to boolean.
     """
-    return val.lower() in ('', 'y', 'yes', 't', 'true', 'on', '1')
+    return val.lower() in {'', 'y', 'yes', 't', 'true', 'on', '1'}
 
 def __print_dict(dictionary: dict, indent=4) -> None:
     print("{\n%s\n}" % '\n'.join([f"{COLORS['blue']}{indent * ' '}{key}{COLORS['reset']}: {COLORS['green']}{value}{COLORS['reset']}," for key, value in dictionary.items()]))
@@ -111,10 +111,10 @@ def main():
             sys.stderr(errno.EINVAL)
     except HTTPError as error:
         print(f"{COLORS['red']}ERROR:{COLORS['reset']} {error}", file=sys.stderr)
-        logger.error("CLI caught an HTTP error (network down?): %s" % str(error))
+        logger.error(f"CLI caught an HTTP error (network down?): {str(error)}")
     except Exception as error:
         print(f"{COLORS['red']}ERROR:{COLORS['reset']} {error}", file=sys.stderr)
-        logger.error("CLI caught an error: %s" % str(error))
+        logger.error(f"CLI caught an error: {str(error)}")
 
 if __name__ == '__main__':
     main()
