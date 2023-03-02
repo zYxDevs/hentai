@@ -685,7 +685,7 @@ class Hentai(RequestHandler):
         """
         return dt.fromtimestamp(self.epos, tz=timezone.utc)
 
-    def __tag(json_: dict, type_: str) -> List[Tag]:
+    def __tag(self, type_: str) -> List[Tag]:
         return [Tag(tag['id'], tag['type'], tag['name'], urljoin(Hentai.HOME, tag['url']), tag['count'])
             for tag in json_['tags']
                 if tag['type'] == type_]
@@ -895,10 +895,12 @@ class Utils(object):
                 try:
                     return func(*args, **kwargs)
                 except HTTPError as error:
-                    logger.error(f"DNE (*args={','.join([arg for arg in args])})", exc_info=True)
+                    logger.error(f"DNE (*args={','.join(list(args))})", exc_info=True)
                     if error_msg:
                         print(error, file=sys.stderr)
+
             return wrapper
+
         return decorator
 
     @staticmethod
@@ -964,7 +966,7 @@ class Utils(object):
             logger.error(f"Failed to establish a connection to {Hentai.HOME}", exc_info=True)
             print(error, file=sys.stderr)
         else:
-            titles = re.findall(r'''<div class="caption">(.*?)</div>''', html_, re.I)[0:5]
+            titles = re.findall(r'''<div class="caption">(.*?)</div>''', html_, re.I)[:5]
 
             return Homepage(
                 popular_now={doujin for doujin in Utils.search_by_query(query='*', sort=Sort.PopularToday, handler=handler) if str(doujin) in titles},

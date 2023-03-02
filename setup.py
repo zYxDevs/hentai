@@ -6,10 +6,10 @@ from setuptools import setup, find_packages
 
 with open("src/hentai/hentai.py", encoding='utf-8') as file_handler:
     lines = file_handler.read()
-    version = re.search(r'__version__ = "(.*?)"', lines).group(1)
-    package_name = re.search(r'package_name = "(.*?)"', lines).group(1)
-    python_major = int(re.search(r'python_major = "(.*?)"', lines).group(1))
-    python_minor = int(re.search(r'python_minor = "(.*?)"', lines).group(1))
+    version = re.search(r'__version__ = "(.*?)"', lines)[1]
+    package_name = re.search(r'package_name = "(.*?)"', lines)[1]
+    python_major = int(re.search(r'python_major = "(.*?)"', lines)[1])
+    python_minor = int(re.search(r'python_minor = "(.*?)"', lines)[1])
 
 print("reading dependency file")
 
@@ -24,7 +24,7 @@ print("reading readme file")
 with open("README.md", mode='r', encoding='utf-8') as readme:
     long_description = readme.read()
 
-print("running %s's setup routine" % package_name)
+print(f"running {package_name}'s setup routine")
 
 setup(
     author='hentai-chan',
@@ -40,19 +40,16 @@ setup(
         'Documentation': "https://www.hentai-chan.dev/projects/hentai",
         'Source Code': "https://github.com/hentai-chan/hentai",
         'Bug Reports': "https://github.com/hentai-chan/hentai/issues",
-        'Changelog': "https://github.com/hentai-chan/hentai/blob/master/CHANGELOG.md"
+        'Changelog': "https://github.com/hentai-chan/hentai/blob/master/CHANGELOG.md",
     },
     python_requires=">=%d.%d" % (python_major, python_minor),
     install_requires=packages,
-    extra_requires={
-        'dev': dev_packages[1:],
-        'test': ['pytest']
-    },
+    extra_requires={'dev': dev_packages[1:], 'test': ['pytest']},
     include_package_data=True,
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     entry_points={
-        'console_scripts': ['%s=%s.__init__:main' % (package_name, package_name)]
+        'console_scripts': [f'{package_name}={package_name}.__init__:main']
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -67,9 +64,9 @@ setup(
         'Topic :: Education',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries',
-        'Topic :: Utilities'
+        'Topic :: Utilities',
     ],
-    keywords="hentai nhentai nhentai.net API NSFW"
+    keywords="hentai nhentai nhentai.net API NSFW",
 )
 
 wheel_name = package_name.replace('-', '_') if '-' in package_name else package_name
